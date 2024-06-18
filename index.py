@@ -1,9 +1,9 @@
 from flask import Flask, request, Response
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
-from secret import secrets
+import os
 
-POSTRESQL_URL = secrets.get('POSTRESQL_URL')
+POSTRESQL_URL = os.environ.get('API_URL')
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -68,6 +68,9 @@ def edit_tickets():
     ticket = Ticket.query.get(request.json['id'])
     ticket.status = request.json['status']
     db.session.commit()
+    print('to: ' + ticket.email)
+    print('re status change to ' + ticket.subject)
+    print('Your ticket is now marked as ' + ticket.status)
     return Response("{'error':'false'}", status=200, mimetype='application/json')
 
 
