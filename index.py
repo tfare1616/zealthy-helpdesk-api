@@ -1,12 +1,15 @@
 from flask import Flask, request, Response
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
+from secret import secrets
+
+POSTRESQL_URL = secrets.get('POSTRESQL_URL')
 
 app = Flask(__name__)
 cors = CORS(app)
 
 app.config['CORS_HEADERS'] = 'application/json'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://neondb_owner:4qi5PguEWhol@ep-bitter-feather-a5gxsums.us-east-2.aws.neon.tech/neondb?sslmode=require'
+app.config['SQLALCHEMY_DATABASE_URI'] = POSTRESQL_URL
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
