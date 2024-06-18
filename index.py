@@ -6,7 +6,7 @@ app = Flask(__name__)
 cors = CORS(app)
 
 app.config['CORS_HEADERS'] = 'application/json'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://neondb_owner:4qi5PguEWhol@ep-bitter-feather-a5gxsums.us-east-2.aws.neon.tech/neondb?sslmode=require'
 db = SQLAlchemy(app)
 
 
