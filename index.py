@@ -28,7 +28,7 @@ def index():
 
 
 @app.route('/tickets')
-@cross_origin(supports_credentials=True)
+@cross_origin()
 def get_tickets():
     tickets = Ticket.query.all()
     ticket_data = []
@@ -47,7 +47,7 @@ def get_tickets():
 
 
 @app.route('/submitTickets', methods=['POST'])
-@cross_origin(supports_credentials=True)
+@cross_origin()
 def submit_tickets():
     ticket = Ticket(name=request.json['name'], email=request.json['email'], description=request.json['description'], status=request.json['status'], subject=request.json['subject'])
     db.session.add(ticket)
@@ -56,7 +56,7 @@ def submit_tickets():
 
 
 @app.route('/editTickets', methods=['PUT'])
-@cross_origin(supports_credentials=True)
+@cross_origin()
 def edit_tickets():
     ticket = Ticket.query.get(request.json['id'])
     ticket.status = request.json['status']
@@ -65,11 +65,9 @@ def edit_tickets():
 
 
 @app.route('/deleteTickets', methods=['PUT'])
-@cross_origin(supports_credentials=True)
+@cross_origin()
 def delete_tickets():
     ticket = Ticket.query.get(request.json['id'])
-    # if ticket is None:
-    #     return Response("{'error':'true', 'message':'Selected ticket does not exist'}", status=400, mimetype='application/json')
     db.session.delete(ticket)
     db.session.commit()
     return Response("{'error':'false'}", status=200, mimetype='application/json')
