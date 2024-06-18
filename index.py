@@ -7,6 +7,7 @@ cors = CORS(app)
 
 app.config['CORS_HEADERS'] = 'application/json'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://neondb_owner:4qi5PguEWhol@ep-bitter-feather-a5gxsums.us-east-2.aws.neon.tech/neondb?sslmode=require'
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 
@@ -21,6 +22,9 @@ class Ticket(db.Model):
     def __repr__(self):
         return f"{self.name} - {self.email} - {self.description}"
 
+
+with app.app_context():
+    db.create_all()
 
 @app.route('/')
 def index():
