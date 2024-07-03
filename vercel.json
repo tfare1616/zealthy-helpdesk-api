@@ -4,6 +4,6 @@
     { "src": "indexflask.py", "use": "@vercel/python" }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "/index.py" }
+    { "src": "/(.*)", "dest": "/controller.py" }
   ]
 }
