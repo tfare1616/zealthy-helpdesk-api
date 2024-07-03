@@ -4,6 +4,7 @@ from flask_cors import CORS, cross_origin
 import os
 from app import create_app
 from db import create_db
+from controller import get_tickets
 
 #POSTRESQL_URL = os.environ.get('API_URL')
 
@@ -39,20 +40,7 @@ def index():
 @app.route('/tickets')
 @cross_origin()
 def get_tickets():
-    tickets = Ticket.query.all()
-    ticket_data = []
-
-    for ticket in tickets:
-        data = {'name': ticket.name,
-                'description': ticket.description,
-                'status': ticket.status,
-                'email': ticket.email,
-                'subject': ticket.subject,
-                'id': ticket.id
-                }
-        ticket_data.append(data)
-
-    return {'Tickets': ticket_data}
+    return get_tickets(Ticket)
 
 
 @app.route('/submitTickets', methods=['POST'])
@@ -87,7 +75,7 @@ def delete_tickets():
 
 @app.route('/requestComments', methods=['PUT'])
 @cross_origin()
-def requestComments():
+def request_comments():
     ticket = Ticket.query.get(request.json['id'])
     db.session.commit()
     print('to: ' + ticket.email)
