@@ -1,19 +1,16 @@
-from flask import Flask, request, Response
-import os
+from flask import request, Response
 from flask_cors import CORS, cross_origin
 from db import db
 from app import app
 from ticket import Ticket
 
-
-with app.app_context():
-    db.create_all()
+cors = CORS(app)
 
 
 @app.route('/')
 @cross_origin()
 def test():
-    return {'Tickets'}
+    return 'Tickets'
 
 
 @app.route('/tickets')
