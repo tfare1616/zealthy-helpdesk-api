@@ -89,7 +89,6 @@ def delete_tickets():
 @cross_origin()
 def requestComments():
     ticket = Ticket.query.get(request.json['id'])
-    ticket.status = request.json['status']
     db.session.commit()
     print('to: ' + ticket.email)
     print('re additional information has been requested on ' + ticket.subject)
