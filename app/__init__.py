@@ -11,5 +11,4 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 cors = CORS(app)
 
-
-import controller
+from app import controller

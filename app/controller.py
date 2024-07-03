@@ -1,6 +1,6 @@
 from flask import request, Response
 from flask_cors import CORS, cross_origin
-from app import app
+import app
 from db import db
 from ticket import Ticket
 
