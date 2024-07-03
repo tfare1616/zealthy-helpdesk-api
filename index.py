@@ -2,16 +2,8 @@ from flask import Flask, request, Response
 import os
 from flask_cors import CORS, cross_origin
 from db import db
+from app import app
 from ticket import Ticket
-
-POSTRESQL_URL = os.environ.get('API_URL')
-
-
-app = Flask(__name__)
-app.config['CORS_HEADERS'] = 'application/json'
-app.config['SQLALCHEMY_DATABASE_URI'] = POSTRESQL_URL
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-cors = CORS(app)
 
 
 with app.app_context():
