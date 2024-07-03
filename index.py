@@ -1,19 +1,11 @@
-from flask import Flask, request, Response
-from flask_sqlalchemy import SQLAlchemy
+from flask import request, Response
 from flask_cors import CORS, cross_origin
 import os
 from app import create_app
 from db import create_db
-from controller import get_tickets
-
-#POSTRESQL_URL = os.environ.get('API_URL')
 
 app = create_app()
 cors = CORS(app)
-
-# app.config['CORS_HEADERS'] = 'application/json'
-# app.config['SQLALCHEMY_DATABASE_URI'] = POSTRESQL_URL
-# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = create_db(app)
 
 
@@ -32,15 +24,24 @@ class Ticket(db.Model):
 with app.app_context():
     db.create_all()
 
-@app.route('/')
-def index():
-    return 'test'
-
 
 @app.route('/tickets')
 @cross_origin()
 def get_tickets():
-    return get_tickets(Ticket)
+    tickets = Ticket.query.all()
+    ticket_data = []
+
+    for ticket in tickets:
+        data = {'name': ticket.name,
+                'description': ticket.description,
+                'status': ticket.status,
+                'email': ticket.email,
+                'subject': ticket.subject,
+                'id': ticket.id
+                }
+        ticket_data.append(data)
+
+    return {'Tickets': ticket_data}
 
 
 @app.route('/submitTickets', methods=['POST'])
