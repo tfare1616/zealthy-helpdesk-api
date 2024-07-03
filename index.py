@@ -2,16 +2,18 @@ from flask import Flask, request, Response
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
 import os
+from app import create_app
+from db import create_db
 
-POSTRESQL_URL = os.environ.get('API_URL')
+#POSTRESQL_URL = os.environ.get('API_URL')
 
-app = Flask(__name__)
+app = create_app()
 cors = CORS(app)
 
-app.config['CORS_HEADERS'] = 'application/json'
-app.config['SQLALCHEMY_DATABASE_URI'] = POSTRESQL_URL
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-db = SQLAlchemy(app)
+# app.config['CORS_HEADERS'] = 'application/json'
+# app.config['SQLALCHEMY_DATABASE_URI'] = POSTRESQL_URL
+# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+db = create_db(app)
 
 
 class Ticket(db.Model):
@@ -80,4 +82,16 @@ def delete_tickets():
     ticket = Ticket.query.get(request.json['id'])
     db.session.delete(ticket)
     db.session.commit()
+    return Response("{'error':'false'}", status=200, mimetype='application/json')
+
+
+@app.route('/requestComments', methods=['PUT'])
+@cross_origin()
+def requestComments():
+    ticket = Ticket.query.get(request.json['id'])
+    ticket.status = request.json['status']
+    db.session.commit()
+    print('to: ' + ticket.email)
+    print('re additional information has been requested on ' + ticket.subject)
+    print(request.json['comment'])
     return Response("{'error':'false'}", status=200, mimetype='application/json')
