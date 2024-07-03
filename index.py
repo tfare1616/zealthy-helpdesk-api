@@ -11,6 +11,13 @@ app.config['SQLALCHEMY_DATABASE_URI'] = POSTRESQL_URL
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 cors = CORS(app)
 
+
+@app.route('/')
+@cross_origin()
+def test():
+    return {'Tickets'}
+
+
 @app.route('/tickets')
 @cross_origin()
 def get_tickets():
