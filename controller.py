@@ -5,13 +5,6 @@ from db import db
 from ticket import Ticket
 
 
-cors = CORS(app)
-
-
-with app.app_context():
-    db.create_all()
-
-
 @app.route('/tickets')
 @cross_origin()
 def get_tickets():
