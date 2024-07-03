@@ -1,8 +1,15 @@
 from flask import request, Response
-from flask_cors import cross_origin
+from flask_cors import CORS, cross_origin
 from app import app
 from db import db
 from ticket import Ticket
+
+
+cors = CORS(app)
+
+
+with app.app_context():
+    db.create_all()
 
 
 @app.route('/tickets')
